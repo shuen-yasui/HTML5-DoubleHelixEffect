@@ -17,15 +17,19 @@ class Particle {
 			c.beginPath();
 			c.moveTo(this.x,this.y);
 			c.lineTo(this.couple.x,this.couple.y);
-			c.strokeStyle = "white";
+			if (this.y > (window.innerHeight*0.5)){
+			var alpha = ((window.innerHeight-this.y)/(window.innerHeight*0.5));
+			}
+			else{
+				var alpha = (this.y/(window.innerHeight*0.25));
+			}
+			c.strokeStyle = "rgba(255,255,255,"+alpha+")";
 			c.stroke();
 			c.closePath();
 		}
-		
 		// Update Size
 		var sizeMod = (this.y - (this.centerY-(this.pathRadius*0.5)))/(this.pathRadius*0.5);
 		this.radius = this.maxRadius * sizeMod;
-		
 		// Update Positions
 		this.radians += this.vel;
 		this.x = this.centerX + this.pathRadius * (Math.cos(this.radians));
@@ -35,7 +39,13 @@ class Particle {
 		// Fill
 		c.beginPath();
 		c.arc(this.x,this.y,this.radius,0,Math.PI * 2,false);
-		c.strokeStyle = "white";
+		if (this.y > (window.innerHeight*0.5)){
+			var alpha = ((window.innerHeight-this.y)/(window.innerHeight*0.5));
+		}
+		else{
+			var alpha = (this.y/(window.innerHeight*0.25));
+		}
+		c.strokeStyle = "rgba(255,255,255,"+alpha+")";
 		c.stroke();
 		c.fillStyle = "black";
 		c.fill();
@@ -66,7 +76,6 @@ function init(){
 			p = new Particle(centX,centY,r);
 			particles.push(p);
 			p.vel = (p.vel * ((cntPlanes-(plane*0.5))/cntPlanes));
-			console.log(p.vel);
 			if (n>0){
 				particles[n+(cntParticles*plane)].couple = particles[(n+(cntParticles*plane))-1];
 			}
