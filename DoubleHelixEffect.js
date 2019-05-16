@@ -10,20 +10,22 @@ class Particle {
 		this.pathRadius = 100;
 		this.radians = r;
 		this.vel = 0.01;
+		this.alpha = 1;
 	}
 	update(){
+		// Update Alpha
+		if (this.y > (window.innerHeight*0.5)){
+			this.alpha = ((window.innerHeight-this.y)/(window.innerHeight*0.5));
+		}
+		else{
+			this.alpha = (this.y/(window.innerHeight*0.25));
+		}
 		// Draw Lines
 		if (this.couple != null){
 			c.beginPath();
 			c.moveTo(this.x,this.y);
 			c.lineTo(this.couple.x,this.couple.y);
-			if (this.y > (window.innerHeight*0.5)){
-			var alpha = ((window.innerHeight-this.y)/(window.innerHeight*0.5));
-			}
-			else{
-				var alpha = (this.y/(window.innerHeight*0.25));
-			}
-			c.strokeStyle = "rgba(255,255,255,"+alpha+")";
+			c.strokeStyle = "rgba(255,255,255,"+this.alpha+")";
 			c.stroke();
 			c.closePath();
 		}
@@ -39,13 +41,7 @@ class Particle {
 		// Fill
 		c.beginPath();
 		c.arc(this.x,this.y,this.radius,0,Math.PI * 2,false);
-		if (this.y > (window.innerHeight*0.5)){
-			var alpha = ((window.innerHeight-this.y)/(window.innerHeight*0.5));
-		}
-		else{
-			var alpha = (this.y/(window.innerHeight*0.25));
-		}
-		c.strokeStyle = "rgba(255,255,255,"+alpha+")";
+		c.strokeStyle = "rgba(255,255,255,"+this.alpha+")";
 		c.stroke();
 		c.fillStyle = "black";
 		c.fill();
@@ -56,10 +52,7 @@ class Particle {
 var canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
 var c = canvas.getContext('2d');
-var x;
-var y;
 var particles = [];
 var cntParticles = 4;
 var cntPlanes = 30;
@@ -90,7 +83,6 @@ function init(){
 	update();
 }
 function update(){
-	//c.clearRect(0,0,innerWidth,innerHeight);
 	c.fillStyle = 'rgba(0,0,0,0.5)';
 	c.fillRect(0,0,innerWidth,innerHeight);
 	c.beginPath();
@@ -104,6 +96,5 @@ function update(){
 		p = particles[i];
 		p.postprocess();
 	}
-	// Gradient
 	requestAnimationFrame(update);
 }
