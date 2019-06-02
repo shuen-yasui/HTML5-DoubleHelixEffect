@@ -30,7 +30,7 @@ class Particle {
 			c.closePath();
 		}
 		// Update Size
-		var sizeMod = (this.y - (this.centerY-(this.pathRadius*0.5)))/(this.pathRadius*0.5);
+		let sizeMod = (this.y - (this.centerY-(this.pathRadius*0.5)))/(this.pathRadius*0.5);
 		this.radius = this.maxRadius * sizeMod;
 		// Update Positions
 		this.radians += this.vel;
@@ -48,16 +48,6 @@ class Particle {
 		c.closePath();
 	}
 }
-
-var canvas = document.querySelector('canvas');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-var c = canvas.getContext('2d');
-var particles = [];
-var cntParticles = 4;
-var cntPlanes = 30;
-init();
-
 function init(){
 	plane = 0;
 	while (plane <= cntPlanes){
@@ -88,13 +78,21 @@ function update(){
 	c.beginPath();
 	c.fillStyle = "white";
 	c.closePath();
-	for (var i = 0; i < particles.length; i++){
+	for (let i = 0; i < particles.length; i++){
 		p = particles[i];
 		p.update();
 	}
-	for (var i = 0; i < particles.length; i++){
+	for (let i = 0; i < particles.length; i++){
 		p = particles[i];
 		p.postprocess();
 	}
 	requestAnimationFrame(update);
 }
+let canvas = document.querySelector('canvas');
+let c = canvas.getContext('2d');
+let particles = [];
+let cntParticles = 4;
+let cntPlanes = 30;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+init();
